@@ -34,6 +34,7 @@ private:
     QButtonGroup groupMethod;
     QButtonGroup groupFunction;
     QButtonGroup groupStop;
+
 public:
     Ui::MainWindow *ui;
 };

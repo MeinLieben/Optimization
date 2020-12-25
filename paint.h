@@ -32,6 +32,7 @@ private slots:
 
 private:
     Ui::Paint *ui;
+
 };
 
 

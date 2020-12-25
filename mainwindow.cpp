@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+
     validator.setNotation( QDoubleValidator::StandardNotation );
     validatorArea.setNotation( QDoubleValidator::StandardNotation );
 

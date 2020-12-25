@@ -2,6 +2,8 @@
 
 Optimizing::Optimizing(const double& epsilon) : epsilon(epsilon) {}
 
+
+
 GROptimizing::GROptimizing(const double& epsilon, const double& lInterval) : epsilon(epsilon), lInterval(lInterval){}
 
 double GROptimizing::optimize(const std::function<double(double)>& f, double l, double r) const {

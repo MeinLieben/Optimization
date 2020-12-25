@@ -40,10 +40,16 @@ Paint::Paint(const bool method, const double epsilon, const Area& area, const st
 
 
 void Paint::mousePressEvent(QMouseEvent* event){
-    std::vector<std::vector<double>> result = opt->optimize({xmin + event->x() * (xmax - xmin) / xSize, ymax - event->y() * (ymax - ymin) / ySize}, f, Area({xmin, ymin}, {xmax, ymax}), gradf, state);
+    double x0 = ui->customPlot->xAxis->pixelToCoord(event->x());
+    double y0 = ui->customPlot->yAxis->pixelToCoord(event->y());
+    std::vector<std::vector<double>> result = opt->optimize({x0, y0}, f, Area({xmin, ymin}, {xmax, ymax}), gradf, state);
     QVector<double> x(result.size()), y(result.size()), t(result.size());
+    ui->customPlot->addGraph(ui->customPlot->xAxis, ui->customPlot->yAxis);
+    ui->customPlot->graph(0)->setPen(QPen(QColor(255, 0, 0)));
+    ui->customPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 6));
     QCPCurve *newCurve = new QCPCurve(ui->customPlot->xAxis, ui->customPlot->yAxis);
-    newCurve->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 5));
+    newCurve->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 3));
     newCurve->setPen(QPen(QColor(255, 255, 255)));
 
     for(size_t i = 0; i < result.size(); ++i){
@@ -52,14 +58,22 @@ void Paint::mousePressEvent(QMouseEvent* event){
         t[i] = i;
         std::cout << "(x, y) = ("<< result[i][0] << ", " << result[i][1] << "), f(x, y) = " << f(result[i]) << "\n";
     }
+
     newCurve->setData(t, x, y);
+    ui->customPlot->graph(0)->setData({x[0], x[result.size() - 1]}, {y[0], y[result.size() - 1]});
+    QCPItemText *text = new QCPItemText(ui->customPlot);
+    text->setText(QString("(%1, %2)").arg(x[result.size() - 1]).arg(y[result.size() - 1]));
+    text->position->setCoords(QPointF(x[result.size() - 1], y[result.size() - 1]));
+    text->setFont(QFont(font().family(), 10));
     ui->customPlot->replot();
     delete newCurve;
+    delete text;
 }
 
 Paint::~Paint()
 {
     delete ui;
+    delete opt;
 }
 
 
