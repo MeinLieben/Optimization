@@ -62,7 +62,7 @@ void Paint::mousePressEvent(QMouseEvent* event){
     newCurve->setData(t, x, y);
     ui->customPlot->graph(0)->setData({x[0], x[result.size() - 1]}, {y[0], y[result.size() - 1]});
     QCPItemText *text = new QCPItemText(ui->customPlot);
-    text->setText(QString("(%1, %2)").arg(x[result.size() - 1]).arg(y[result.size() - 1]));
+    text->setText(QString("(%1, %2)\n%3").arg(x[result.size() - 1]).arg(y[result.size() - 1]).arg(f({x[result.size() - 1], y[result.size() - 1]})));
     text->position->setCoords(QPointF(x[result.size() - 1], y[result.size() - 1]));
     text->setFont(QFont(font().family(), 10));
     ui->customPlot->replot();

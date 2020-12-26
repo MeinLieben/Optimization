@@ -73,11 +73,11 @@ std::vector<double> gradf2(std::vector<double> x) {
 }
 
 double f3(std::vector<double> x) {
-    return (1 - x[0]) * (1 - x[0]) + 100*(x[1] - x[0]*x[0]) * (x[1] - x[0]*x[0]);
+    return (x[0] + 2*x[1] - 7) * (x[0] + 2*x[1] - 7) + (2*x[0] + x[1] - 5)*(2*x[0] + x[1] - 5);
 }
 
 std::vector<double> gradf3(std::vector<double> x) {
-    return { 2 * (x[0] - 1) - 400 * x[0] * (x[1] - x[0] * x[0]), 200 * (x[1] - x[0] * x[0]) };
+    return { 2 * (x[0] + 2*x[1] - 7) + 4*(2*x[0] + x[1] - 5), 4 * (x[0] + 2*x[1] - 7) + 2 * (2*x[0] + x[1] - 5) };
 }
 
 void MainWindow::on_accept_clicked()
